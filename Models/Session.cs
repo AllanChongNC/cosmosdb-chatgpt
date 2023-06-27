@@ -40,9 +40,9 @@ public record Session
 
         PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
 
-        UserPrincipal user = UserPrincipal.FindByIdentity(ctx, User.Identity.Name);
+        UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, User.Identity.Name);
 
-        UserID = user.DisplayName;
+        UserID = testuser.DisplayName;
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
