@@ -1,10 +1,10 @@
 using Newtonsoft.Json;
 
+namespace Cosmos.Chat.GPT.Models;
+
 using System.DirectoryServices.AccountManagement;
 
 using(var context = new PrincipalContext(ContextType.Domain));
-
-namespace Cosmos.Chat.GPT.Models;
 
 public record Session
 {
