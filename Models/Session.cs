@@ -38,11 +38,11 @@ public record Session
         Type = nameof(Session);
         SessionId = this.Id;
 
-        PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
+        ///PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
 
-        UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
+        ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
 
-        UserID = testuser.DisplayName;
+        UserID = User.Identity.Name;
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
