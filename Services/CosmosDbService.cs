@@ -82,7 +82,7 @@ public class CosmosDbService
     {
         QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type AND c.userID = @userID")
             .WithParameter("@type", nameof(Session))
-            .WithParameter("@userID", "test");
+            .WithParameter("@userID", "newTest");
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
 
