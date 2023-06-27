@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.DirectoryServices.AccountManagement;
 
-namespace ADUserInfo;
-
 namespace Cosmos.Chat.GPT.Models;
 
 /// using(var context = new PrincipalContext(ContextType.Domain)) {};
