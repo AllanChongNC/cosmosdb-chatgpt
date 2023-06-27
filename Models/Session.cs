@@ -4,7 +4,7 @@ using System.DirectoryServices.AccountManagement;
 
 namespace Cosmos.Chat.GPT.Models;
 
-using(var context = new PrincipalContext(ContextType.Domain)) {};
+/// using(var context = new PrincipalContext(ContextType.Domain)) {};
 
 public record Session
 {
