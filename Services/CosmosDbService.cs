@@ -80,8 +80,9 @@ public class CosmosDbService
     /// <returns>List of distinct chat session items.</returns>
     public async Task<List<Session>> GetSessionsAsync()
     {
-        QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type")
-            .WithParameter("@type", nameof(Session));
+        QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type AND c.userId = @userId")
+            .WithParameter("@type", nameof(Session)
+            .WithParameter("@userId", string.Empty);
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
 
@@ -101,9 +102,10 @@ public class CosmosDbService
     /// <returns>List of chat message items for the specified session.</returns>
     public async Task<List<Message>> GetSessionMessagesAsync(string sessionId)
     {
-        QueryDefinition query = new QueryDefinition("SELECT * FROM c WHERE c.sessionId = @sessionId AND c.type = @type")
+        QueryDefinition query = new QueryDefinition("SELECT * FROM c WHERE c.sessionId = @sessionId AND c.type = @type AND c.userId = @userId")
             .WithParameter("@sessionId", sessionId)
-            .WithParameter("@type", nameof(Message));
+            .WithParameter("@type", nameof(Message))
+            .WithParameter("@userId", string.Empty);
 
         FeedIterator<Message> results = _container.GetItemQueryIterator<Message>(query);
 
@@ -161,8 +163,9 @@ public class CosmosDbService
     {
         PartitionKey partitionKey = new(sessionId);
 
-        QueryDefinition query = new QueryDefinition("SELECT VALUE c.id FROM c WHERE c.sessionId = @sessionId")
-                .WithParameter("@sessionId", sessionId);
+        QueryDefinition query = new QueryDefinition("SELECT VALUE c.id FROM c WHERE c.sessionId = @sessionId AND c.userId = @userId")
+                .WithParameter("@sessionId", sessionId)
+                .WithParameter("@userId", string.Empty);
 
         FeedIterator<string> response = _container.GetItemQueryIterator<string>(query);
 
