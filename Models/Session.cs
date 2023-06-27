@@ -38,8 +38,8 @@ public record Session
         SessionId = this.Id;
 
         ///var context = new PrincipalContext(ContextType.Domain);
-        ///UserID = UserPrincipal.Current.EmailAddress;
-        UserID = "newTest";
+        UserID = UserPrincipal.Current.EmailAddress;
+        ///UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
         Messages = new List<Message>();
