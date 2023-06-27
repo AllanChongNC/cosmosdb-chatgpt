@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.DirectoryServices;
 
 namespace Cosmos.Chat.GPT.Models;
