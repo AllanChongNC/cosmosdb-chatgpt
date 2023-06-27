@@ -107,18 +107,17 @@ public class ChatService
     /// <summary>
     /// Get a completion from _openAiService
     /// </summary>
-    public async Task<string> GetChatCompletionAsync(string? sessionId, string? userId, string prompt)
+    public async Task<string> GetChatCompletionAsync(string? sessionId, string prompt)
     {
         ArgumentNullException.ThrowIfNull(sessionId);
-        ///ArgumentNullException.ThrowIfNull(userId);
 
-        Message promptMessage = await AddPromptMessageAsync(sessionId, userId, prompt);
+        Message promptMessage = await AddPromptMessageAsync(sessionId, prompt);
 
         string conversation = GetChatSessionConversation(sessionId);
 
-        (string response, int promptTokens, int responseTokens) = await _openAiService.GetChatCompletionAsync(sessionId, userId, conversation);
+        (string response, int promptTokens, int responseTokens) = await _openAiService.GetChatCompletionAsync(sessionId, conversation);
 
-        await AddPromptCompletionMessagesAsync(sessionId, userId, promptTokens, responseTokens, promptMessage, response);
+        await AddPromptCompletionMessagesAsync(sessionId, promptTokens, responseTokens, promptMessage, response);
 
         return response;
     }
@@ -169,9 +168,9 @@ public class ChatService
     /// <summary>
     /// Add user prompt to the chat session message list object and insert into the data service.
     /// </summary>
-    private async Task<Message> AddPromptMessageAsync(string sessionId, string userId, string promptText)
+    private async Task<Message> AddPromptMessageAsync(string sessionId, string promptText)
     {
-        Message promptMessage = new(sessionId, userId, nameof(Participants.User), default, promptText);
+        Message promptMessage = new(sessionId, nameof(Participants.User), default, promptText);
 
         int index = _sessions.FindIndex(s => s.SessionId == sessionId);
 
@@ -183,13 +182,13 @@ public class ChatService
     /// <summary>
     /// Add user prompt and AI assistance response to the chat session message list object and insert into the data service as a transaction.
     /// </summary>
-    private async Task AddPromptCompletionMessagesAsync(string sessionId, string userId, int promptTokens, int completionTokens, Message promptMessage, string completionText)
+    private async Task AddPromptCompletionMessagesAsync(string sessionId, int promptTokens, int completionTokens, Message promptMessage, string completionText)
     {
 
         int index = _sessions.FindIndex(s => s.SessionId == sessionId);
         
         //Create completion message, add to the cache
-        Message completionMessage = new(sessionId, userId, nameof(Participants.Assistant), completionTokens, completionText);
+        Message completionMessage = new(sessionId, nameof(Participants.Assistant), completionTokens, completionText);
         _sessions[index].AddMessage(completionMessage);
 
         
