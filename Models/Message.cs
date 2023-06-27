@@ -24,12 +24,11 @@ public record Message
 
     public string Text { get; set; }
 
-    public Message(string sessionId, string userId, string sender, int? tokens, string text)
+    public Message(string sessionId, string sender, int? tokens, string text)
     {
         Id = Guid.NewGuid().ToString();
         Type = nameof(Message);
         SessionId = sessionId;
-        UserId = userId;
         Sender = sender;
         Tokens = tokens;
         TimeStamp = DateTime.UtcNow;
