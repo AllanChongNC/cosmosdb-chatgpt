@@ -42,7 +42,7 @@ public record Session
 
         ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
 
-        UserID = User.Identity.Name;
+        UserID = UserPrincipal.DisplayName;
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
