@@ -42,12 +42,12 @@ public record Session
 
         UserPrincipal user = UserPrincipal.FindByIdentity(ctx, User.Identity.Name);
 
-        UserID = UserPrincipal.Current.Name
+        UserID = user.DisplayName;
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
-        UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
+        ///UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
         ///UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
