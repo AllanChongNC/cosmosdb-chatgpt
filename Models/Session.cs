@@ -46,7 +46,7 @@ public record Session
 
         ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
 
-        UserID = Dns.GetHostEntry(Dns.GetHostName());
+        UserID = GetIpAddress();
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
@@ -58,6 +58,15 @@ public record Session
         Messages = new List<Message>();
     }
 
+    private string GetIpAddress()
+    {
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress[] addresses = host.AddressList;
+        IPAddress firstIpAddress = addresses[0];
+
+        return firstIpAddress.ToString();
+    }
+    
     public void AddMessage(Message message)
     {
         Messages.Add(message);
