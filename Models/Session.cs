@@ -40,7 +40,7 @@ public record Session
 
         PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
 
-        UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, User.Identity.Name);
+        UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.Current.User.Identity.Name);
 
         UserID = testuser.DisplayName;
 
