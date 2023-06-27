@@ -39,7 +39,7 @@ public record Session
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
-        UserID = "test";
+        UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
         Messages = new List<Message>();
