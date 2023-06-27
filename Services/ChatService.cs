@@ -116,7 +116,7 @@ public class ChatService
 
         string conversation = GetChatSessionConversation(sessionId);
 
-        (string response, int promptTokens, int responseTokens) = await _openAiService.GetChatCompletionAsync(sessionId, conversation);
+        (string response, int promptTokens, int responseTokens) = await _openAiService.GetChatCompletionAsync(sessionId, userId, conversation);
 
         await AddPromptCompletionMessagesAsync(sessionId, userId, promptTokens, responseTokens, promptMessage, response);
 
