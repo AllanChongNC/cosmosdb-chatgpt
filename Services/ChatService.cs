@@ -110,7 +110,7 @@ public class ChatService
     public async Task<string> GetChatCompletionAsync(string? sessionId, string? userId, string prompt)
     {
         ArgumentNullException.ThrowIfNull(sessionId);
-        ArgumentNullException.ThrowIfNull(userId);
+        ///ArgumentNullException.ThrowIfNull(userId);
 
         Message promptMessage = await AddPromptMessageAsync(sessionId, userId, prompt);
 
