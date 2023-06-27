@@ -52,7 +52,7 @@ public class OpenAiService
     /// <param name="sessionId">Chat session identifier for the current conversation.</param>
     /// <param name="prompt">Prompt message to send to the deployment.</param>
     /// <returns>Response from the OpenAI model along with tokens for the prompt and response.</returns>
-    public async Task<(string response, int promptTokens, int responseTokens)> GetChatCompletionAsync(string sessionId, string userPrompt)
+    public async Task<(string response, int promptTokens, int responseTokens)> GetChatCompletionAsync(string sessionId, string userId, string userPrompt)
     {
         
         ChatMessage systemMessage = new(ChatRole.System, _systemPrompt);
