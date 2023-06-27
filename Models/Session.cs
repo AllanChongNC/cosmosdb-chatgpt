@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace Cosmos.Chat.GPT.Models;
-
 using System.DirectoryServices.AccountManagement;
+
+namespace Cosmos.Chat.GPT.Models;
 
 using(var context = new PrincipalContext(ContextType.Domain)) {}
 
