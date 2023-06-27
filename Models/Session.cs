@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 
+using System;
 using System.DirectoryServices.AccountManagement;
 
 namespace Cosmos.Chat.GPT.Models;
@@ -39,7 +40,7 @@ public record Session
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
-        UserID = UserPrincipal.Current.Name;
+        UserID = System.Environment.UserName;
         ///UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
