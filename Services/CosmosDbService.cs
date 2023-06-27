@@ -2,6 +2,11 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 
+using System.Net;
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
+using System.Linq;
+
 namespace Cosmos.Chat.GPT.Services;
 
 /// <summary>
@@ -82,7 +87,7 @@ public class CosmosDbService
     {
         QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type AND c.userID = @userID")
             .WithParameter("@type", nameof(Session))
-            .WithParameter("@userID", "newTest");
+            .WithParameter("@userID", GetIpAddress());
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
 
@@ -93,6 +98,15 @@ public class CosmosDbService
             output.AddRange(results);
         }
         return output;
+    }
+
+    private string GetIpAddress()
+    {
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+        IPAddress[] addresses = host.AddressList;
+        IPAddress firstIpAddress = addresses[0];
+
+        return firstIpAddress.ToString();
     }
 
     /// <summary>
