@@ -34,7 +34,7 @@ public record Session
         Id = Guid.NewGuid().ToString();
         Type = nameof(Session);
         SessionId = this.Id;
-        UserID = UserPrincipal.Current.EmailAddress;
+        ///UserID = UserPrincipal.Current.EmailAddress;
         TokensUsed = 0;
         Name = "New Chat";
         Messages = new List<Message>();
