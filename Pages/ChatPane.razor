@@ -23,7 +23,7 @@
     <div class="px-4 pb-4 pt-2 flex-grow-1 overflow-y-auto overflow-x-hidden align-items-stretch" id="MessagesInChatdiv">
         @if (CurrentSession is null)
         {
-            <div class="alert alert-primary">               
+            <div class="alert alert-secondary">               
                 <div class="alert-heading">
                     <div class="spinner-border text-primary me-1" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -51,7 +51,7 @@
         {
             if (_messagesInChat is null || _loadingComplete == false)
             {
-                <div class="alert alert-primary">
+                <div class="alert alert-secondary">
                     <div class="alert-heading">
                         <div class="spinner-border text-primary me-1" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -226,7 +226,7 @@
             UserPromptSet = String.Empty;
         }
 
-        await chatService.GetChatCompletionAsync(CurrentSession?.SessionId, UserPrompt);
+        await chatService.GetChatCompletionAsync(CurrentSession?.SessionId, CurrentSession?.UserId, UserPrompt);
 
         if(_messagesInChat?.Count == 2)
         {
