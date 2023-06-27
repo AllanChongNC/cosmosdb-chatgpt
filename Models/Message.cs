@@ -14,7 +14,7 @@ public record Message
     /// </summary>
     public string SessionId { get; set; }
 
-    public string UserId { get; set; }
+    ///public string UserId { get; set; }
 
     public DateTime TimeStamp { get; set; }
 
