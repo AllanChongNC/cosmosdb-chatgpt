@@ -22,7 +22,7 @@ public record Session
 
     public string UserID { get; set; }
 
-    public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
+    ///public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
 
     public int? TokensUsed { get; set; }
 
@@ -38,7 +38,7 @@ public record Session
         SessionId = this.Id;
 
         ///var context = new PrincipalContext(ContextType.Domain);
-        UserID = UserPrincipal.Current.EmailAddress;
+        UserID = System.DirectoryServices.AccountManagement.UserPrincipal.Current.EmailAddress;
         ///UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
