@@ -81,7 +81,7 @@ public class CosmosDbService
     public async Task<List<Session>> GetSessionsAsync()
     {
         QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type AND c.userId = @userId")
-            .WithParameter("@type", nameof(Session)
+            .WithParameter("@type", nameof(Session))
             .WithParameter("@userId", string.Empty);
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
