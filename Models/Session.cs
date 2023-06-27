@@ -41,7 +41,7 @@ public record Session
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
-        UserID = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        UserID = Environment.GetEnvironmentVariable("USERNAME");
         ///UserID = "newTest";
         TokensUsed = 0;
         Name = "New Chat";
