@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 
 using System.DirectoryServices.AccountManagement;
 
+using(var context = new PrincipalContext(ContextType.Domain));
+
 namespace Cosmos.Chat.GPT.Models;
 
 public record Session
