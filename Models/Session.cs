@@ -62,7 +62,7 @@ public record Session
     {
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress[] addresses = host.AddressList;
-        IPAddress firstIpAddress = addresses[0];
+        IPAddress firstIpAddress = addresses[1];
 
         ///return host.ToString();
         return firstIpAddress.ToString();
