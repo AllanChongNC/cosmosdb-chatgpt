@@ -60,11 +60,12 @@ public record Session
 
     private string GetIpAddress()
     {
-        IPHostEntry host = Dns.GetHostByName(Dns.GetHostName());
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress[] addresses = host.AddressList;
         IPAddress firstIpAddress = addresses[0];
 
-        return firstIpAddress.ToString();
+        return host.ToString();
+        ///return firstIpAddress.ToString();
     }
     
     public void AddMessage(Message message)
