@@ -64,8 +64,8 @@ public record Session
         IPAddress[] addresses = host.AddressList;
         IPAddress firstIpAddress = addresses[0];
 
-        return host.ToString();
-        ///return firstIpAddress.ToString();
+        ///return host.ToString();
+        return firstIpAddress.ToString();
     }
     
     public void AddMessage(Message message)
