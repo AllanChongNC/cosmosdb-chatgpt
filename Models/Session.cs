@@ -46,7 +46,7 @@ public record Session
 
         ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
 
-        UserID = GetIpAddress();
+        UserID = GetLocalIPAddress();
 
         ///var context = new PrincipalContext(ContextType.Domain);
         ///UserID = UserPrincipal.Current.EmailAddress;
@@ -67,7 +67,20 @@ public record Session
         ///return host.ToString();
         return firstIpAddress.ToString();
     }
-    
+
+    public static string GetLocalIPAddress()
+{
+    var host = Dns.GetHostEntry(Dns.GetHostName());
+    foreach (var ip in host.AddressList)
+    {
+        if (ip.AddressFamily == AddressFamily.InterNetwork)
+        {
+            return ip.ToString();
+        }
+    }
+    throw new Exception("No network adapters with an IPv4 address in the system!");
+}
+
     public void AddMessage(Message message)
     {
         Messages.Add(message);
