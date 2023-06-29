@@ -1,7 +1,7 @@
 using Cosmos.Chat.GPT.Options;
 using Cosmos.Chat.GPT.Services;
 using Microsoft.Extensions.Options;
-​
+
 ///using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Identity.Web;
@@ -10,49 +10,48 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.Configuration;
-​
+
 var builder = WebApplication.CreateBuilder(args);
-​
+
 builder.RegisterConfiguration();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.RegisterServices();
 builder.Services.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
-​
+
 var app = builder.Build();
-​
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-​
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-​
-app.UseAuthentication();
-app.UseAuthorization();
-​
+
+ app.UseAuthentication();
+ app.UseAuthorization();
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-​
+
 await app.RunAsync();
-​
+
 static class ProgramExtensions
 {
     public static void RegisterConfiguration(this WebApplicationBuilder builder)
     {
         builder.Services.AddOptions<CosmosDb>()
             .Bind(builder.Configuration.GetSection(nameof(CosmosDb)));
-​
+
         builder.Services.AddOptions<OpenAi>()
             .Bind(builder.Configuration.GetSection(nameof(OpenAi)));
     }
-​
+
     public static void RegisterServices(this IServiceCollection services)
     {
-        services.AddHttpContextAccessor();
         services.AddSingleton<CosmosDbService, CosmosDbService>((provider) =>
         {
             var cosmosDbOptions = provider.GetRequiredService<IOptions<CosmosDb>>();
@@ -86,7 +85,7 @@ static class ProgramExtensions
                 );
             }
         });
-        services.AddTransient<ChatService>((provider) =>
+        services.AddSingleton<ChatService>((provider) =>
         {
             var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
             if (openAiOptions is null)
@@ -97,24 +96,23 @@ static class ProgramExtensions
             {
                 var cosmosDbService = provider.GetRequiredService<CosmosDbService>();
                 var openAiService = provider.GetRequiredService<OpenAiService>();
-                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
                 return new ChatService(
                     openAiService: openAiService,
                     cosmosDbService: cosmosDbService,
-                    maxConversationTokens: openAiOptions.Value?.MaxConversationTokens ?? String.Empty,
-                    httpContextAccessor: httpContextAccessor
+                    maxConversationTokens: openAiOptions.Value?.MaxConversationTokens ?? String.Empty
                 );
             }
         });
-​
-​
+
+
+
     }
-​
+
     public static void ConfigureServices(this IServiceCollection services, IConfigurationSection configuration)
     {
         services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApp(configuration, "AzureAd");
-​
+
         services.AddRazorPages().AddMvcOptions(options =>
         {
         var policy = new AuthorizationPolicyBuilder()
