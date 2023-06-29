@@ -55,7 +55,11 @@ public record Session
         ///UserID = GetLocalIPAddress();
 
         ///var context = new PrincipalContext(ContextType.Domain);
-        UserID = HttpContext.User.Identity.Name;
+
+        HttpContext httpContext = HttpContext.Current;
+        string authHeader = this.httpContext.Request.Headers["Authorization"];
+        UserID = authHeader;
+        ///UserID = HttpContext.User.Identity.Name;
         ///Principal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
         ///UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
