@@ -30,7 +30,7 @@ public class CosmosDbService
     /// <remarks>
     /// This constructor will validate credentials and create a service client instance.
     /// </remarks>
-    public CosmosDbService(string endpoint, string key, string databaseName, string containerName)
+    public CosmosDbService(string endpoint, string key, string databaseName, string containerName, AuthenticationStateProvider authenticationStateProvider)
     {
         ArgumentNullException.ThrowIfNullOrEmpty(databaseName);
         ArgumentNullException.ThrowIfNullOrEmpty(containerName);
@@ -51,6 +51,8 @@ public class CosmosDbService
 
         _container = container ??
             throw new ArgumentException("Unable to connect to existing Azure Cosmos DB container or database.");
+
+        _authenticationStateProvider = authenticationStateProvider;
     }
 
     /// <summary>
