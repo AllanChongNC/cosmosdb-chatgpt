@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.Linq;
+using System.Web;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 
 namespace Cosmos.Chat.GPT.Models;
