@@ -56,8 +56,8 @@ public record Session
 
         ///var context = new PrincipalContext(ContextType.Domain);
 
-        HttpContext httpContext = HttpContext.Current;
-        string authHeader = this.httpContext.Request.Headers["Authorization"];
+        ///HttpContext httpContext = HttpContext.Current;
+        string authHeader = this.HttpContext.Request.Headers["Authorization"];
         UserID = authHeader;
         ///UserID = HttpContext.User.Identity.Name;
         ///Principal.Current.EmailAddress;
