@@ -46,10 +46,10 @@ public record Session
 
         ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
 
-        UserID = GetLocalIPAddress();
+        ///UserID = GetLocalIPAddress();
 
         ///var context = new PrincipalContext(ContextType.Domain);
-        ///UserID = UserPrincipal.Current.EmailAddress;
+        UserID = UserPrincipal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
         ///UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
         ///UserID = "newTest";
