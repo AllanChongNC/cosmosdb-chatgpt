@@ -2,12 +2,22 @@ using Cosmos.Chat.GPT.Options;
 using Cosmos.Chat.GPT.Services;
 using Microsoft.Extensions.Options;
 
+///using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.RegisterConfiguration();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.RegisterServices();
+builder.Services.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
 
 var app = builder.Build();
 
@@ -20,6 +30,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+ app.UseAuthentication();
+ app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
@@ -90,5 +103,21 @@ static class ProgramExtensions
                 );
             }
         });
+
+
+    }
+
+    public static void ConfigureServices(this IServiceCollection services, IConfigurationSection configuration)
+    {
+        services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(configuration, "AzureAd");
+
+        services.AddRazorPages().AddMvcOptions(options =>
+        {
+        var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+        options.Filters.Add(new AuthorizeFilter(policy));
+        }).AddMicrosoftIdentityUI();
     }
 }
