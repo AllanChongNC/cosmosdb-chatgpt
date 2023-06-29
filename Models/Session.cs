@@ -5,11 +5,16 @@ using System.Net;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using System.Linq;
+using System.Web;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+using Microsoft.AspNetCore.Http;
 
 namespace Cosmos.Chat.GPT.Models;
 
+
 /// using(var context = new PrincipalContext(ContextType.Domain)) {};
+
 
 public record Session
 {
@@ -29,6 +34,8 @@ public record Session
 
     ///public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
 
+    ///public System.Security.Principal.IPrincipal User { get; set; }
+
     public int? TokensUsed { get; set; }
 
     public string Name { get; set; }
@@ -41,18 +48,7 @@ public record Session
         Id = Guid.NewGuid().ToString();
         Type = nameof(Session);
         SessionId = this.Id;
-
-        ///PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
-
-        ///UserPrincipal testuser = UserPrincipal.FindByIdentity(ctx, HttpContext.User.Identity.Name);
-
-        UserID = GetLocalIPAddress();
-
-        ///var context = new PrincipalContext(ContextType.Domain);
-        ///UserID = UserPrincipal.Current.EmailAddress;
-        ///UserID = System.Environment.UserName;
-        ///UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
-        ///UserID = "newTest";
+        UserID = string.Empty;
         TokensUsed = 0;
         Name = "New Chat";
         Messages = new List<Message>();
