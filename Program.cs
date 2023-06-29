@@ -31,8 +31,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
- app.UseAuthentication();
- app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
@@ -52,6 +52,7 @@ static class ProgramExtensions
 
     public static void RegisterServices(this IServiceCollection services)
     {
+        services.AddHttpContextAccessor();
         services.AddSingleton<CosmosDbService, CosmosDbService>((provider) =>
         {
             var cosmosDbOptions = provider.GetRequiredService<IOptions<CosmosDb>>();
@@ -85,7 +86,7 @@ static class ProgramExtensions
                 );
             }
         });
-        services.AddSingleton<ChatService>((provider) =>
+        services.AddTransient<ChatService>((provider) =>
         {
             var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
             if (openAiOptions is null)
@@ -96,14 +97,15 @@ static class ProgramExtensions
             {
                 var cosmosDbService = provider.GetRequiredService<CosmosDbService>();
                 var openAiService = provider.GetRequiredService<OpenAiService>();
+                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
                 return new ChatService(
                     openAiService: openAiService,
                     cosmosDbService: cosmosDbService,
-                    maxConversationTokens: openAiOptions.Value?.MaxConversationTokens ?? String.Empty
+                    maxConversationTokens: openAiOptions.Value?.MaxConversationTokens ?? String.Empty,
+                    httpContextAccessor: httpContextAccessor
                 );
             }
         });
-
 
 
     }
@@ -111,7 +113,7 @@ static class ProgramExtensions
     public static void ConfigureServices(this IServiceCollection services, IConfigurationSection configuration)
     {
         services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(configuration, "AzureAd");
+                .AddMicrosoftIdentityWebApp(configuration);
 
         services.AddRazorPages().AddMvcOptions(options =>
         {
