@@ -1,6 +1,6 @@
 using Cosmos.Chat.GPT.Constants;
 using Cosmos.Chat.GPT.Models;
-using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Cosmos.Chat.GPT.Services;
 
@@ -13,18 +13,18 @@ public class ChatService
 
     private readonly CosmosDbService _cosmosDbService;
     private readonly OpenAiService _openAiService;
+    private readonly AuthenticationStateProvider _authenticationStateProvider;
     private readonly int _maxConversationTokens;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ChatService(
         CosmosDbService cosmosDbService,
         OpenAiService openAiService,
         string maxConversationTokens,
-        IHttpContextAccessor httpContextAccessor)
+        AuthenticationStateProvider authenticationStateProvider)
     {
         _cosmosDbService = cosmosDbService;
         _openAiService = openAiService;
-        _httpContextAccessor = httpContextAccessor;
+        _authenticationStateProvider = authenticationStateProvider;
 
         _maxConversationTokens = Int32.TryParse(maxConversationTokens, out _maxConversationTokens) ? _maxConversationTokens : 4000;
     }
@@ -75,26 +75,16 @@ public class ChatService
     /// </summary>
     public async Task CreateNewChatSessionAsync()
     {
-        var httpContext = _httpContextAccessor.HttpContext;
-        if (httpContext is null)
-        {
-            throw new NullReferenceException("HttpContext is null");
-        }
-        var identity = httpContext.User.Identity;
+        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var identity = state.User.Identity;
         if (identity is null)
         {
             throw new NullReferenceException("Identity is null");
         }
         
-        var userId = identity.Name;
-        if (userId is null)
-        {
-            throw new NullReferenceException("Name is null");
-        }
-        
         Session session = new()
         {
-            UserID = userId,
+            UserID = identity.Name!,
         };
 
         _sessions.Add(session);
