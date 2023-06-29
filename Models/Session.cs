@@ -13,6 +13,8 @@ namespace Cosmos.Chat.GPT.Models;
 
 /// using(var context = new PrincipalContext(ContextType.Domain)) {};
 
+
+
 public record Session
 {
     /// <summary>
@@ -30,6 +32,8 @@ public record Session
     public string UserID { get; set; }
 
     public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
+
+    public System.Security.Principal.IPrincipal User { get; set; }
 
     public int? TokensUsed { get; set; }
 
@@ -51,7 +55,7 @@ public record Session
         ///UserID = GetLocalIPAddress();
 
         ///var context = new PrincipalContext(ContextType.Domain);
-        UserID = HttpContext.Current.User.Identity.Name;
+        UserID = HttpContext.User.Identity.Name;
         ///Principal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
         ///UserID = new System.Security.Principal.WindowsPrincipal(System.Security.Principal.WindowsIdentity.GetCurrent()).Identity.Name;
