@@ -1,6 +1,7 @@
 ﻿using Cosmos.Chat.GPT.Models;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.AspNetCore.Components.Authorization;
 
 using System.Net;
 using System.Net.Sockets;
@@ -15,6 +16,8 @@ namespace Cosmos.Chat.GPT.Services;
 public class CosmosDbService
 {
     private readonly Container _container;
+    private readonly AuthenticationStateProvider _authenticationStateProvider;
+
 
     /// <summary>
     /// Creates a new instance of the service.
@@ -85,9 +88,16 @@ public class CosmosDbService
     /// <returns>List of distinct chat session items.</returns>
     public async Task<List<Session>> GetSessionsAsync()
     {
+        var state = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var identity = state.User.Identity;
+        if (identity is null)
+        {
+            throw new NullReferenceException("Identity is null");
+        }
+        
         QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type AND c.userID = @userID")
             .WithParameter("@type", nameof(Session))
-            .WithParameter("@userID", GetIpAddress());
+            .WithParameter("@userID", identity.Name!);
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
 
