@@ -54,7 +54,7 @@ static class ProgramExtensions
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
-        services.AddSingleton<CosmosDbService, CosmosDbService>((provider) =>
+        services.AddScoped<CosmosDbService, CosmosDbService>((provider) =>
         {
             var cosmosDbOptions = provider.GetRequiredService<IOptions<CosmosDb>>();
             if (cosmosDbOptions is null)
@@ -63,11 +63,13 @@ static class ProgramExtensions
             }
             else
             {
+                var authenticationStateProvider = provider.GetRequiredService<AuthenticationStateProvider>();
                 return new CosmosDbService(
                     endpoint: cosmosDbOptions.Value?.Endpoint ?? String.Empty,
                     key: cosmosDbOptions.Value?.Key ?? String.Empty,
                     databaseName: cosmosDbOptions.Value?.Database ?? String.Empty,
-                    containerName: cosmosDbOptions.Value?.Container ?? String.Empty
+                    containerName: cosmosDbOptions.Value?.Container ?? String.Empty,
+                    authenticationStateProvider: authenticationStateProvider
                 );
             }
         });
