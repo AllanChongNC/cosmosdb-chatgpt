@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Cosmos.Chat.GPT.Models;
 
-public static class StaticWebAppsAuth()
+public static class StaticWebAppsAuth
 {
   private class ClientPrincipal
   {
@@ -97,7 +97,7 @@ public record Session
 
         ///HttpContext httpContext = HttpContext.Current;
         ///string authHeader = this.HttpContext.Request.Headers["Authorization"];
-        UserID = StaticWebAppsAuth();
+        UserID = StaticWebAppsAuth;
         ///UserID = HttpContext.User.Identity.Name;
         ///Principal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
