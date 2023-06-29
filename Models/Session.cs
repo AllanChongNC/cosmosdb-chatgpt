@@ -31,9 +31,9 @@ public record Session
 
     public string UserID { get; set; }
 
-    public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
+    ///public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
 
-    public System.Security.Principal.IPrincipal User { get; set; }
+    ///public System.Security.Principal.IPrincipal User { get; set; }
 
     public int? TokensUsed { get; set; }
 
