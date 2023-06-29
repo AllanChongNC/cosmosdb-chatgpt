@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.Configuration;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,7 +87,7 @@ static class ProgramExtensions
                 );
             }
         });
-        services.AddTransient<ChatService>((provider) =>
+        services.AddScoped<ChatService>((provider) =>
         {
             var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
             if (openAiOptions is null)
@@ -97,12 +98,12 @@ static class ProgramExtensions
             {
                 var cosmosDbService = provider.GetRequiredService<CosmosDbService>();
                 var openAiService = provider.GetRequiredService<OpenAiService>();
-                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+                var authenticationStateProvider = provider.GetRequiredService<AuthenticationStateProvider>();
                 return new ChatService(
                     openAiService: openAiService,
                     cosmosDbService: cosmosDbService,
                     maxConversationTokens: openAiOptions.Value?.MaxConversationTokens ?? String.Empty,
-                    httpContextAccessor: httpContextAccessor
+                    authenticationStateProvider: authenticationStateProvider
                 );
             }
         });
