@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+using Microsoft.AspNetCore.Http;
 
 namespace Cosmos.Chat.GPT.Models;
 
@@ -57,7 +58,8 @@ public record Session
         ///var context = new PrincipalContext(ContextType.Domain);
 
         ///HttpContext httpContext = HttpContext.Current;
-        ///string authHeader = this.HttpContext.Request.Headers["Authorization"];
+        //string authHeader = this.HttpContext.Request.Headers["Authorization"];
+        UserId = HttpContext.User; 
         ///UserID = HttpContext.User.Identity.Name;
         ///Principal.Current.EmailAddress;
         ///UserID = System.Environment.UserName;
