@@ -111,11 +111,23 @@
     {
         await OnThemeUpdated.InvokeAsync();
     }
-    protected override async OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
-        var authState = await authenticationState;
-        var user = authState?.User.Identity;
-        
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user?.Identity is not null && user.Identity.IsAuthenticated)
+            {
+                authMessage = $"{user.Identity.Name} is authenticated.";
+            }
+        }
+    }
+
+    protected override void OnInitialized()
+    {        
         OnNavMenuChanged += async (o, e) =>
         {
             await this.InvokeAsync(async () =>
