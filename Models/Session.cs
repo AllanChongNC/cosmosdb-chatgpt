@@ -12,10 +12,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace Cosmos.Chat.GPT.Models;
 
-
-/// using(var context = new PrincipalContext(ContextType.Domain)) {};
-
-
 public record Session
 {
     /// <summary>
@@ -31,10 +27,6 @@ public record Session
     public string SessionId { get; set; }
 
     public string UserID { get; set; }
-
-    ///public static System.DirectoryServices.AccountManagement.UserPrincipal Current { get; }
-
-    ///public System.Security.Principal.IPrincipal User { get; set; }
 
     public int? TokensUsed { get; set; }
 
@@ -53,29 +45,6 @@ public record Session
         Name = "New Chat";
         Messages = new List<Message>();
     }
-
-    private string GetIpAddress()
-    {
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress[] addresses = host.AddressList;
-        IPAddress firstIpAddress = addresses[1];
-
-        ///return host.ToString();
-        return firstIpAddress.ToString();
-    }
-
-    public static string GetLocalIPAddress()
-{
-    var host = Dns.GetHostEntry(Dns.GetHostName());
-    foreach (var ip in host.AddressList)
-    {
-        if (ip.AddressFamily == AddressFamily.InterNetwork)
-        {
-            return ip.ToString();
-        }
-    }
-    throw new Exception("No network adapters with an IPv4 address in the system!");
-}
 
     public void AddMessage(Message message)
     {
