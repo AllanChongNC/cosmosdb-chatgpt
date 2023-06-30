@@ -2,6 +2,8 @@
 @using Cosmos.Chat.GPT.Services
 @inject ChatService chatService
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 <div class="h-100 d-flex flex-column" style="min-width: 275px;">
     <div class="flex-column navbar navbar-dark bg-light">
         <div class="container-fluid justify-content-between">
@@ -225,7 +227,7 @@
         int index = 0;
         if (CurrentSession is not null & ChatSessions is not null & ChatSessions?.Count > 0)
         {
-            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId) ?? 0;
+            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserId == identity.Name) ?? 0;
         }
         if (CurrentSession is null || index < 0)
         {
