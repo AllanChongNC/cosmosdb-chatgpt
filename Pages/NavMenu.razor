@@ -231,7 +231,7 @@
 
         if (CurrentSession is not null & ChatSessions is not null & ChatSessions?.Count > 0)
         {
-            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserId == userId) ?? 0;
+            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserID == userId) ?? 0;
         }
         if (CurrentSession is null || index < 0)
         {
