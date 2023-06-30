@@ -226,12 +226,12 @@
     {
         int index = 0;
 
-        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var userId = state.User.Identity!.Name;
+        ///var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        ///var userId = state.User.Identity!.Name;
 
         if (CurrentSession is not null & ChatSessions is not null & ChatSessions?.Count > 0)
         {
-            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserID == userId) ?? 0;
+            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId) ?? 0;
         }
         if (CurrentSession is null || index < 0)
         {
