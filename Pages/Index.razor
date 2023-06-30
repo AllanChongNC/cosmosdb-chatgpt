@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>IAG SafeGPT</PageTitle>
-<main class="h-100 d-flex flex-row justify-content-start">
+<main class="h-100 d-flex flex-row-reverse justify-content-start">
     @if (!IsNavMenuCollapsed)
     {
         <NavMenu @ref="@NavMenu" OnChatClicked="LoadChatEventHandlerAsync" OnNavBarVisibilityUpdated="UpdateNavBarVisibility" />
