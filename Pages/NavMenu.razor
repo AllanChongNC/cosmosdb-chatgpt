@@ -100,6 +100,9 @@
     private bool _renamePopUpOpen = false;
     public Session? CurrentSession;
     private static event EventHandler<string>? OnNavMenuChanged;
+
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
     async private Task ToggleNavMenu()
     {
         await OnNavBarVisibilityUpdated.InvokeAsync();
@@ -110,6 +113,9 @@
     }
     protected override void OnInitialized()
     {
+        var authState = await authenticationState;
+        var user = authState?.User.Identity;
+        
         OnNavMenuChanged += async (o, e) =>
         {
             await this.InvokeAsync(async () =>
@@ -230,7 +236,7 @@
 
         if (CurrentSession is not null & ChatSessions is not null & ChatSessions?.Count > 0)
         {
-            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId) ?? 0;
+            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserID == user.Name) ?? 0;
         }
         if (CurrentSession is null || index < 0)
         {
