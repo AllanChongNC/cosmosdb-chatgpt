@@ -9,7 +9,7 @@ public class ChatService
     /// <summary>
     /// All data is cached in the _sessions List object.
     /// </summary>
-    private List<Session> _sessions = new();
+    private static List<Session> _sessions = new();
 
     private readonly CosmosDbService _cosmosDbService;
     private readonly OpenAiService _openAiService;
