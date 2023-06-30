@@ -186,7 +186,7 @@ public class ChatService
     /// </summary>
     private async Task<Message> AddPromptMessageAsync(string sessionId, string promptText)
     {
-        Message promptMessage = new(sessionId, nameof(Participants.User), default, promptText);
+        Message promptMessage = new(sessionId, nameof(Participants.Me), default, promptText);
 
         int index = _sessions.FindIndex(s => s.SessionId == sessionId);
 
