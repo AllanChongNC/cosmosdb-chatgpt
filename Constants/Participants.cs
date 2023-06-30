@@ -2,6 +2,7 @@ namespace Cosmos.Chat.GPT.Constants;
 
 public enum Participants
 {
-    User = 0,
+    ///User = 0,
+    Me,
     Assistant   
 }
