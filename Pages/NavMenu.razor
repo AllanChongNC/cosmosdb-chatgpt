@@ -101,7 +101,7 @@
     public Session? CurrentSession;
     private static event EventHandler<string>? OnNavMenuChanged;
 
-    private Task<AuthenticationState>? authenticationState { get; set; }
+    ///private Task<AuthenticationState>? authenticationState { get; set; }
 
     async private Task ToggleNavMenu()
     {
@@ -229,15 +229,15 @@
     {
         int index = 0;
 
-        var authState = await authenticationState;
-        var user = authState?.User.Identity!;
+        ///var authState = await authenticationState;
+        ///var user = authState?.User.Identity!;
 
         ///var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         ///var userId = state.User.Identity!.Name;
 
         if (CurrentSession is not null & ChatSessions is not null & ChatSessions?.Count > 0)
         {
-            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId && s.UserID == user.Name) ?? 0;
+            index = ChatSessions?.FindIndex(s => s.SessionId == CurrentSession?.SessionId) ?? 0;
         }
         if (CurrentSession is null || index < 0)
         {
