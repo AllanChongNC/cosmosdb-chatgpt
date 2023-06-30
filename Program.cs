@@ -73,7 +73,7 @@ static class ProgramExtensions
                 );
             }
         });
-        services.AddSingleton<OpenAiService, OpenAiService>((provider) =>
+        services.AddScoped<OpenAiService, OpenAiService>((provider) =>
         {
             var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
             if (openAiOptions is null)
