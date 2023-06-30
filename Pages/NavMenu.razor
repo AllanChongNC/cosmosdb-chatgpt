@@ -114,16 +114,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (authenticationState is not null)
-        {
             var authState = await authenticationState;
             var user = authState?.User;
-
-            if (user?.Identity is not null && user.Identity.IsAuthenticated)
-            {
-                authMessage = $"{user.Identity.Name} is authenticated.";
-            }
-        }
     }
 
     protected override void OnInitialized()
