@@ -112,12 +112,6 @@
         await OnThemeUpdated.InvokeAsync();
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-            var authState = await authenticationState;
-            var user = authState?.User;
-    }
-
     protected override void OnInitialized()
     {        
         OnNavMenuChanged += async (o, e) =>
@@ -234,6 +228,9 @@
     private async Task<int> LoadCurrentChatAsync()
     {
         int index = 0;
+
+        var authState = await authenticationState;
+        var user = authState?.User;
 
         ///var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         ///var userId = state.User.Identity!.Name;
