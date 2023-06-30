@@ -111,7 +111,7 @@
     {
         await OnThemeUpdated.InvokeAsync();
     }
-    protected override async void OnInitialized()
+    protected override async OnInitialized()
     {
         var authState = await authenticationState;
         var user = authState?.User.Identity;
