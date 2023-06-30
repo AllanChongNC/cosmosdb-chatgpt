@@ -84,7 +84,7 @@
                         @foreach (var msg in _messagesInChat)
                         {
                             <div class="toast fade show w-75 rounded-3 @(msg.Sender == nameof(Participants.Assistant) ? "align-self-end" : "align-self-start")">
-                                <div class="toast-header @(msg.Sender == nameof(Participants.Assistant) ? "bg-purple text-dark bg-opacity-25" : "bg-secondary text-light")">
+                                <div class="toast-header @(msg.Sender == nameof(Participants.Assistant) ? "bg-dark-grey text-light" : "bg-maroon text-light")">
                                     <i class="bi @(msg.Sender == nameof(Participants.Assistant) ? "bi-robot" : "bi-person") me-1" aria-hidden="true"></i>
                                     <strong class="me-auto text-capitalize">
                                         @msg.Sender
