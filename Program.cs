@@ -17,8 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.RegisterConfiguration();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped.RegisterServices();
-builder.Services.AddScoped.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
+builder.Services.RegisterServices();
+builder.Services.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
 
 var app = builder.Build();
 
@@ -89,12 +89,12 @@ static class ProgramExtensions
                 );
             }
         });
-        services.AddScoped<ChatService>((provider) =>
+        services.AddScoped<ChatService, ChatService>((provider) =>
         {
-            var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
-            if (openAiOptions is null)
+            var chatServiceOptions = provider.GetRequiredService<IOptions<ChatService>>();
+            if (chatServiceOptions is null)
             {
-                throw new ArgumentException($"{nameof(IOptions<OpenAi>)} was not resolved through dependency injection.");
+                throw new ArgumentException($"{nameof(IOptions<ChatService>)} was not resolved through dependency injection.");
             }
             else
             {
