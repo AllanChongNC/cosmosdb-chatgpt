@@ -91,10 +91,10 @@ static class ProgramExtensions
         });
         services.AddScoped<ChatService, ChatService>((provider) =>
         {
-            var chatServiceOptions = provider.GetRequiredService<IOptions<ChatService>>();
-            if (chatServiceOptions is null)
+            var openAiOptions = provider.GetRequiredService<IOptions<OpenAi>>();
+            if (openAiOptions is null)
             {
-                throw new ArgumentException($"{nameof(IOptions<ChatService>)} was not resolved through dependency injection.");
+                throw new ArgumentException($"{nameof(IOptions<OpenAi>)} was not resolved through dependency injection.");
             }
             else
             {
