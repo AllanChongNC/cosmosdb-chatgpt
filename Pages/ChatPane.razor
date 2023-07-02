@@ -156,7 +156,8 @@
     private string? UserPromptSet { get; set; }
 	
     private List<Message>? _messagesInChat;
-    private static event EventHandler<Session>? _onMessagePosted;
+    ///private static event EventHandler<Session>? _onMessagePosted;
+    private event EventHandler<Session>? _onMessagePosted;
     private bool _loadingComplete;
 
 	async private Task ToggleNavMenu()
