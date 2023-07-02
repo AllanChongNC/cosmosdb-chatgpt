@@ -17,8 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.RegisterConfiguration();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.RegisterServices();
-builder.Services.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
+builder.Services.AddScoped.RegisterServices();
+builder.Services.AddScoped.ConfigureServices(builder.Configuration.GetSection("AzureAd"));
 
 var app = builder.Build();
 
